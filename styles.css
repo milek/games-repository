@@ -122,6 +122,15 @@ padding: 1px;
 cursor: default;
 }
 
+.content.tiles li .renter
+{
+background-color: #ff4949;
+color: white;
+padding: 0px 6px 4px 5px;
+font-variant: small-caps;
+border: solid #ff0000 1px;
+}
+
 .content.tiles li.notowned
 {
 background: #f0f0f0;
@@ -194,6 +203,7 @@ width: 100px;
 height: 6px;
 margin-left: 80px;
 margin-top: 5px;
+margin-bottom: 6px;
 padding-right: 2px;
 }
 

@@ -80,7 +80,11 @@
                 $addtnl = " completed";
             }
 
-            $achPointPercentage = floor($game->achPoints->value / $game->achPoints->outOf * 100);
+            if ($game->achPoints->outOf > 0)
+            {
+                $achPointPercentage = floor($game->achPoints->value / $game->achPoints->outOf * 100);
+            }
+
             $classColorPercentage = floor($achPointPercentage - ($achPointPercentage % 10));
 
             ob_start("newlines");

@@ -80,6 +80,7 @@
                 $addtnl = " completed";
             }
 
+            $achPointPercentage = 0;
             if ($game->achPoints->outOf > 0)
             {
                 $achPointPercentage = floor($game->achPoints->value / $game->achPoints->outOf * 100);

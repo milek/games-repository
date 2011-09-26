@@ -1,0 +1,23 @@
+[fpp]
+Halo 3 [Someone]
+
+[tpp]
+Gears of War
+
+[rpg]
+Mass Effect
+
+[racing]
+Forza Motorsport 2
+
+[fighting]
+Mortal Kombat
+
+[lego]
+LEGO Star Wars: The Complete Saga
+
+[music]
+Guitar Hero Metallica
+
+[other]
+Halo Wars

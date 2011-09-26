@@ -98,6 +98,18 @@
         <span class="achievements">
           <?= $game->achPoints->value ?>&nbsp;/&nbsp;<?= $game->achPoints->outOf ?><br />
           <span class="progress"><span class="count p<?= $classColorPercentage ?>" style="width: <?= $achPointPercentage ?>%;"><?= $achPointPercentage ?></span></span>
+<?php
+
+            if ($game->renter != "")
+            {
+
+?>
+          <span class="renter"><?= strtolower($game->renter) ?></span>
+<?php
+
+            }
+
+?>
         </span>
       </li>
 <?php

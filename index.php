@@ -19,6 +19,7 @@
 <head>
   <title>XBOX360 games</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="author" content="lukasz.milewski@gmail.com" />
   <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
   <script src="jquery.js"></script>
   <script src="jquery.tinysort.js"></script>

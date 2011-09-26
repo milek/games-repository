@@ -126,6 +126,7 @@ cursor: default;
 {
 background-color: #ff4949;
 color: white;
+font-weight:bold;
 padding: 0px 6px 4px 5px;
 font-variant: small-caps;
 border: solid #ff0000 1px;

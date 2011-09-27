@@ -122,15 +122,32 @@ padding: 1px;
 cursor: default;
 }
 
+.content.tiles li .renter, .content.tiles li .release
+{
+padding: 0px 6px 3px 5px;
+font-weight: bold;
+}
+
 .content.tiles li .renter
 {
 background-color: #ff4949;
-color: white;
-font-weight:bold;
-padding: 0px 6px 4px 5px;
+color: #ffffff;
 font-variant: small-caps;
-font-weight: bold;
 border: solid #ff0000 1px;
+}
+
+.content.tiles li .sep
+{
+display: block;
+margin-bottom: 10px;
+}
+
+.content.tiles li .release
+{
+padding-top: 4px;
+background-color: #000000;
+color: #ffffff;
+border: solid #000000 1px;
 }
 
 .content.tiles li.notowned
@@ -147,11 +164,13 @@ opacity: .2;
 
 .content.tiles li.rented
 {
+border-color: #ffa0a0;
 background: #fff0f0;
 }
 
 .content.tiles li.completed
 {
+border-color: #60af60;
 background: #f0fff0;
 }
 
@@ -174,6 +193,21 @@ float: left;
 padding-right: 1px;
 border-right: solid #d0d0d0 1px;
 margin-right: 5px;
+}
+
+.content.tiles li span.achievements
+{
+margin: 0px;
+}
+
+.content.tiles li.completed img
+{
+border-color: #60af60;
+}
+
+.content.tiles li.rented img
+{
+border-color: #ffa0a0;
 }
 
 .content.tiles li span

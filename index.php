@@ -99,6 +99,7 @@
         <span class="achievements">
           <?= $game->achPoints->value ?>&nbsp;/&nbsp;<?= $game->achPoints->outOf ?><br />
           <span class="progress"><span class="count p<?= $classColorPercentage ?>" style="width: <?= $achPointPercentage ?>%;"><?= $achPointPercentage ?></span></span>
+        </span>
 <?php
 
             if ($game->renter != "")
@@ -109,9 +110,22 @@
 <?php
 
             }
+?>
+<?php
+
+            if ($game->released != null && $game->released != "0")
+            {
+
+                $released = parseDate($game->released);
 
 ?>
-        </span>
+        <span class="sep"></span>
+        <span class="release"><?= $released ?></span>
+<?php
+
+            }
+
+?>
       </li>
 <?php
 

@@ -1,0 +1,8 @@
+FPP = fpp
+TPP = tpp
+RPG = rpg
+Racing = racing
+Fighting = fighting
+LEGO = lego
+Music = music
+Other = other

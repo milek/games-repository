@@ -12,7 +12,7 @@
             while (!feof($retailHandle))
             {
                 $line = fgets($retailHandle);
-                parseLine($line, $games, $lastGroup, $buy);
+                parseGamesLine($line, $games, $lastGroup, $buy);
             }
         }
 
@@ -20,9 +20,30 @@
     }
 
     /**
+     * Load categories
+     */
+    function loadCategories(&$categories)
+    {
+        $temp = loadPropertyFile("data/categories.txt");
+        $active = false;
+
+        foreach ($temp[2] as $key => $value)
+        {
+            $category = new Category();
+            $category->id = $value;
+            $category->active = !$active;
+            $category->name = $temp[1][$key];
+
+            $categories[] = $category;
+
+            $active = true;
+        }
+    }
+
+    /**
      * Parse line.
      */
-    function parseLine($line, &$games, &$lastGroup, $buy)
+    function parseGamesLine($line, &$games, &$lastGroup, $buy)
     {
         $line = trim($line);
 
@@ -102,9 +123,35 @@
     }
 
     /**
+     * Parse achievements, new format JSON.
+     */
+    function parseAchievementsJson($file, &$games)
+    {
+        $json = json_decode($file, true);
+        $live = loadPropertyfile("data/live-matches.txt");
+
+        $gamertag = $json['Data']['Players'][0]['Gamertag'];
+        $forbidden = array(174, 194, 132, 162, 226);
+        $replacement = array_fill(0, count($forbidden), '');
+
+        foreach ($json['Data']['Games'] as $game)
+        {
+            $name = $game['Name'];
+            $name = iconv("UTF-8", "ASCII//IGNORE", $name);
+            $name = str_replace($forbidden, $replacement, $name);
+
+            $gamerscore = new Points;
+            $gamerscore->value = $game['Progress'][$gamertag]['Score'];
+            $gamerscore->outOf = $game['PossibleScore'];
+
+            assignToGame($games, $live, $name, $game['Id'], 0, $gamerscore);
+        }
+    }
+
+    /**
      * Assign to game.
      */
-    function assignToGame(&$games, $live, $name, $boxArtId, $gamerscore)
+    function assignToGame(&$games, $live, $name, $id, $boxArtId, $gamerscore)
     {
         $key = array_search($name, $live[1]);
         if ($key !== false)
@@ -118,6 +165,14 @@
             {
                 if (strcasecmp($game->name, $name) == 0)
                 {
+                    if ($game->id != "")
+                    {
+                        if ($id != $game->id)
+                        {
+                            continue;
+                        }
+                    }
+
                     $game->boxArtId = $boxArtId;
                     $game->achPoints = $gamerscore;
 

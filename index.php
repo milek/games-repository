@@ -4,14 +4,18 @@
     include_once("includes/types.php");
     include_once("includes/functions.php");
 
-    // games list
+    // lists
+    $categories = array();
     $games = array();
+
+    // load categories
+    loadCategories($categories);
 
     // load games
     loadRetailGames($games);
 
-    // parse achievements from Xbox.com
-    parseAchievements(file_get_contents("data/achievements.txt"), $games);
+    // parse achievements from Xbox.com, new format JSON
+    parseAchievementsJson(file_get_contents("data/achievements.json"), $games);
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -35,14 +39,19 @@
     <div class="filters" id="notowned">not owned</div>
     <div class="filters selected" id="notplayed">not played</div>
     <div class="filters selected" id="rented">rented</div>
-    <a id="fpp" class="active">FPP</a>
-    <a id="tpp">TPP</a>
-    <a id="rpg">RPG</a>
-    <a id="racing">Racing</a>
-    <a id="fighting">Fighting</a>
-    <a id="lego">LEGO</a>
-    <a id="music">Music</a>
-    <a id="other">Other</a>
+<?php
+
+    $selectedCategory = false;
+
+    foreach ($categories as $category)
+    {
+?>
+    <a id="<?= $category->id ?>"<?php if ($category->active) {?> class="active"<?php } ?>><?= $category->name ?></a>
+<?php
+
+    }
+
+?>
   </div>
 
   <div class="main">
@@ -53,7 +62,7 @@
     {
         $i = 1;
 
-?>    <ul id="content<?= $group->name ?>" class="content tiles<?= $group->name == "fpp" ? " active" : "" ?>">
+?>    <ul id="content<?= $group->name ?>" class="content tiles<?= $group->name == $categories[0]->id ? " active" : "" ?>">
 <?php
 
         foreach ($group->games as $game)
@@ -140,7 +149,7 @@
   <div style="clear: both;"></div></div>
 
   <div class="footer">
-    Last modified: <?= date("F d Y H:i:s", filemtime("data/achievements.txt")) ?><br />
+    Last modified: <?= date("F d Y H:i:s", filemtime("data/achievements.json")) ?><br />
     <button id="sOaz">SORT Original a-z</button>
     <button id="sOza">SORT Original z-a</button>
     <button id="sNaz">SORT Name a-z</button>
@@ -151,7 +160,7 @@
 
   <script>
 
-    var currentTab = 'fpp';
+    var currentTab = '<?= $categories[0]->id ?>';
 
     function changeClass(tab)
     {
@@ -177,14 +186,18 @@
         $('#' + type).toggleClass('selected');
     }
 
-    $('#fpp').click(function(){changeClass('fpp')});
-    $('#tpp').click(function(){changeClass('tpp')});
-    $('#rpg').click(function(){changeClass('rpg')});
-    $('#racing').click(function(){changeClass('racing')});
-    $('#fighting').click(function(){changeClass('fighting')});
-    $('#lego').click(function(){changeClass('lego')});
-    $('#music').click(function(){changeClass('music')});
-    $('#other').click(function(){changeClass('other')});
+<?php
+
+    foreach ($categories as $category)
+    {
+
+?>
+    $('#<?= $category->id ?>').click(function(){changeClass('<?= $category->id ?>')});
+<?php
+
+    }
+
+?>
 
     $('#completed').click(function(){showHide('completed')});
     $('#rented').click(function(){showHide('rented')});

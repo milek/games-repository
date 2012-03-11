@@ -14,8 +14,17 @@
          */
         function addGame($name, $renter)
         {
+            $id = '';
+
+            if (!(strpos($name, "{") === false))
+            {
+                $id = substr($name, strpos($name, "{") + 1, -1);
+                $name = substr($name, 0, strpos($name, "{") - 1);
+            }
+
             $game = new Game;
             $game->name = $name;
+            $game->id = $id;
             $game->renter = $renter;
             $game->released = null;
 
@@ -43,6 +52,9 @@
 
     class Game
     {
+
+        // id
+        public $id;
 
         // name
         public $name;
@@ -153,6 +165,20 @@
 
         // out of
         public $outOf = 0;
+
+    }
+
+    class Category
+    {
+
+        // id
+        public $id = "";
+
+        // name
+        public $name = "";
+
+        // active
+        public $active = false;
 
     }
 

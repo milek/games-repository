@@ -2,7 +2,7 @@ body
 {
 margin: 0px;
 padding: 0px;
-font-family: "Segoe UI", Arial;
+font-family: "Segoe UI", "Lucida Grande", Arial;
 font-size: 10pt;
 background: #f0f0f0;
 }
@@ -12,7 +12,6 @@ background: #f0f0f0;
 background: #000000;
 padding: 8px;
 color: #ffffff;
-font-family: "X360 by Redge";
 font-size: 10pt;
 }
 
@@ -61,6 +60,14 @@ cursor: pointer;
 border-top: solid #d00000 2px;
 background: #ffffff;
 cursor: default;
+}
+
+.tabs .progress
+{
+float: right;
+margin-right: 17px;
+margin-top: 3px;
+display: none;
 }
 
 .tabs .filters
@@ -112,14 +119,19 @@ display: block;
 
 .content.tiles li
 {
-float: left;
+display: inline-block;
+vertical-align: top;
 border: solid #d0d0d0 1px;
-height: 100px;
-margin-right: 10px;
+margin-right: 5px;
 margin-bottom: 10px;
-min-width: 200px;
 padding: 1px;
 cursor: default;
+}
+
+.content.tiles li .wrapper
+{
+display: block;
+margin: 0px 0px 10px 5px;
 }
 
 .content.tiles li .renter, .content.tiles li .release
@@ -153,7 +165,7 @@ border: solid #000000 1px;
 .content.tiles li.notowned
 {
 background: #f0f0f0;
-opacity: .2;
+opacity: .4;
 }
 
 .content.tiles li.notreleased
@@ -187,32 +199,23 @@ display: none;
 
 .content.tiles li img
 {
-width: 73px;
-height: 100px;
-float: left;
-padding-right: 1px;
-border-right: solid #d0d0d0 1px;
-margin-right: 5px;
+width: 180px;
+display: block;
 }
 
 .content.tiles li span.achievements
 {
-margin: 0px;
+display: block;
+font-size: 11px;
+background-color: #e0e0e0;
+padding: 2px;
+border-top: solid #d0d0d0 1px;
 }
 
-.content.tiles li.completed img
+.content.tiles li.rented span.achievements
 {
-border-color: #60af60;
-}
-
-.content.tiles li.rented img
-{
-border-color: #ffa0a0;
-}
-
-.content.tiles li span
-{
-margin-right: 5px;
+background-color: #e0a0a0;
+border-top: solid #d09090 1px;
 }
 
 .content.tiles li span.id
@@ -234,12 +237,9 @@ display: none;
 {
 display: block;
 margin: 0px;
+background-color: #ffffff;
 border: solid #909090 1px;
-width: 100px;
 height: 6px;
-margin-left: 80px;
-margin-top: 5px;
-margin-bottom: 6px;
 padding-right: 2px;
 }
 
@@ -313,6 +313,9 @@ background-color: #06fe20;
 
 .content.tiles li span.name
 {
+display: block;
+max-width: 170px;
+margin: 5px;
 }
 
 /****** FOOTER ******/

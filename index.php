@@ -27,7 +27,6 @@
   <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
   <script src="jquery.js"></script>
   <script src="jquery.tinysort.js"></script>
-  <script src="spin.min.js"></script>
 </head>
 <body>
 
@@ -41,7 +40,6 @@
     <div class="filters selected" id="notplayed">not played</div>
     <div class="filters selected" id="rented">rented</div>
     <div class="filters selected" style="display: none;" id="played">played</div>
-    <div class="progress" id="progress"></div>
 <?php
 
     $selectedCategory = false;
@@ -142,6 +140,13 @@
 <?php
 
             }
+            else
+            {
+?>
+         <span class="count" style="display: none;">0</span>
+<?php
+
+            }
 
 ?>
      </li>
@@ -158,14 +163,15 @@
   <div style="clear: both;"></div></div>
 
   <div class="footer">
-    <div style="float: right"><a href="https://github.com/milek/GamesRepository">Fork it on GitHub!</a> or <a href="https://bitbucket.org/verdigo/gamesrepository">on Bitbucket!</a></div>
-    Last modified: <?= date("F d Y H:i:s", filemtime("data/achievements.json")) ?><br />
-    <button id="sOaz">SORT Original a-z</button>
-    <button id="sOza">SORT Original z-a</button>
-    <button id="sNaz">SORT Name a-z</button>
-    <button id="sNza">SORT Name z-a</button>
-    <button id="sPaz">SORT Completion 0%-100%</button>
-    <button id="sPza">SORT Completion 100%-0%</button>
+    <div style="float: right"><a href="https://github.com/milek/GamesRepository">Fork it on <strong>GitHub!</strong></a> or <a href="https://bitbucket.org/verdigo/gamesrepository">on <strong>Bitbucket!</strong></a></div>
+    <strong>Last modified:</strong> <b><?= date("F d Y H:i:s", filemtime("data/achievements.json")) ?></b><br />
+    <strong>Sort tiles:</strong>
+    <div class="sort selected" id="sOaz">original a-z</div> |
+    <div class="sort" id="sOza">original z-a</div> | 
+    <div class="sort" id="sNaz">name a-z</div> |
+    <div class="sort" id="sNza">name z-a</div> |
+    <div class="sort" id="sPaz">completion 0%-100%</div> |
+    <div class="sort" id="sPza">completion 100%-0%</div>
   </div>
 
   <script>
@@ -210,6 +216,20 @@
         $('#' + type).toggleClass('selected');
     }
 
+    function sort(id,where,desc)
+    {
+        if (desc != null)
+        {
+            $('ul#[id^"content"]>li').tsort(where, {order:"desc"});
+        }
+        else
+        {
+            $('ul#[id^="content"]>li').tsort(where);
+        }
+        $(".sort").removeClass('selected');
+        $(id).addClass('selected');
+    }
+
 <?php
 
     foreach ($categories as $category)
@@ -230,34 +250,12 @@
     $('#notreleased').click(function(){showHide('notreleased')});
     $('#notplayed').click(function(){showHide('notplayed')});
 
-    $('#sOaz').click(function(){$('ul#content' + currentTab + '>li').tsort('span.id')});
-    $('#sOza').click(function(){$('ul#content' + currentTab + '>li').tsort('span.id', {order:"desc"})});
-    $('#sNaz').click(function(){$('ul#content' + currentTab + '>li').tsort('span.name')});
-    $('#sNza').click(function(){$('ul#content' + currentTab + '>li').tsort('span.name', {order:"desc"})});
-    $('#sPaz').click(function(){$('ul#content' + currentTab + '>li').tsort('span.id');$('ul#content' + currentTab + '>li').tsort('span.count')});
-    $('#sPza').click(function(){$('ul#content' + currentTab + '>li').tsort('span.id');$('ul#content' + currentTab + '>li').tsort('span.count', {order:"desc"})});
-
-    var opts =
-    {
-        lines: 10, // The number of lines to draw
-        length: 4, // The length of each line
-        width: 2, // The line thickness
-        radius: 5, // The radius of the inner circle
-        corners: 0.2, // Corner roundness (0..1)
-        rotate: 24, // The rotation offset
-        color: '#000', // #rgb or #rrggbb
-        speed: 2.0, // Rounds per second
-        trail: 68, // Afterglow percentage
-        shadow: false, // Whether to render a shadow
-        hwaccel: true, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 'auto', // Top position relative to parent in px
-        left: 'auto' // Left position relative to parent in px
-    };
-
-    var target = document.getElementById('progress');
-    var spinner = new Spinner(opts).spin(target);
+    $('#sOaz').click(function(){sort('#sOaz','span.id')});
+    $('#sOza').click(function(){sort('#sOza','span.id','desc')});
+    $('#sNaz').click(function(){sort('#sNaz','span.name')});
+    $('#sNza').click(function(){sort('#sNza','span.name','desc')});
+    $('#sPaz').click(function(){sort('#sPaz','span.name');sort('#sPaz','span.count')});
+    $('#sPza').click(function(){sort('#sPza','span.name');sort('#sPza','span.count','desc')});
 
   </script>
 

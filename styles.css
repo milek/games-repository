@@ -1,8 +1,10 @@
+@import url(http://fonts.googleapis.com/css?family=Titillium+Web:400,600,700);
+
 body
 {
+font-family: 'Titillium Web', 'Segoe UI', 'Lucida Grande', sans-serif;
 margin: 0px;
 padding: 0px;
-font-family: "Segoe UI", "Lucida Grande", Arial;
 font-size: 10pt;
 background: #f0f0f0;
 }
@@ -29,6 +31,12 @@ background: #f0f0f0;
 padding: 12px 0px 2px 8px;
 margin: 0px;
 border-bottom: solid #d0d0d0 1px;
+font-weight: 600;
+}
+
+strong
+{
+font-weight: 600;
 }
 
 .tabs a
@@ -81,6 +89,7 @@ padding: 3px;
 color: #404040;
 border: solid #f0f0f0 1px;
 cursor: pointer;
+text-transform: uppercase;
 }
 
 .tabs .selected
@@ -326,3 +335,19 @@ border-top: solid #d0d0d0 1px;
 padding: 5px;
 clear: both;
 }
+
+.sort
+{
+display: inline;
+color: #404040;
+border: solid #f0f0f0 1px;
+cursor: pointer;
+}
+
+.sort.selected
+{
+color: #005000;
+font-weight: 700;
+}
+
+

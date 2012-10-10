@@ -336,11 +336,15 @@ padding: 5px;
 clear: both;
 }
 
+.footer a
+{
+color: #005000;
+}
+
 .sort
 {
 display: inline;
 color: #404040;
-border: solid #f0f0f0 1px;
 cursor: pointer;
 }
 

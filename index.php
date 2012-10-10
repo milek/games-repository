@@ -158,7 +158,7 @@
   <div style="clear: both;"></div></div>
 
   <div class="footer">
-    <div style="float: right"><a href="https://github.com/milek/GamesRepository">Fork it on GitHub!</a></div>
+    <div style="float: right"><a href="https://github.com/milek/GamesRepository">Fork it on GitHub!</a> or <a href="https://bitbucket.org/verdigo/gamesrepository">on Bitbucket!</a></div>
     Last modified: <?= date("F d Y H:i:s", filemtime("data/achievements.json")) ?><br />
     <button id="sOaz">SORT Original a-z</button>
     <button id="sOza">SORT Original z-a</button>

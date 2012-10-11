@@ -3,8 +3,8 @@
 body
 {
 font-family: 'Titillium Web', 'Segoe UI', 'Lucida Grande', sans-serif;
-margin: 0px;
-padding: 0px;
+margin: 0;
+padding: 0;
 font-size: 10pt;
 background: #f0f0f0;
 }
@@ -14,24 +14,13 @@ background: #f0f0f0;
 background: #000000;
 padding: 8px;
 color: #ffffff;
+}
+
+.top h1
+{
 font-size: 10pt;
-}
-
-/*.top span
-{
-display: none;
-}
-*/
-
-/****** TABS ******/
-
-.tabs
-{
-background: #f0f0f0;
-padding: 12px 0px 2px 8px;
-margin: 0px;
-border-bottom: solid #d0d0d0 1px;
-font-weight: 600;
+font-weight: normal;
+margin: 0;
 }
 
 strong
@@ -39,7 +28,19 @@ strong
 font-weight: 600;
 }
 
-.tabs a
+/****** TABS ******/
+
+tabs
+{
+display: block;
+background: #f0f0f0;
+padding: 12px 0px 2px 8px;
+margin: 0;
+border-bottom: solid #d0d0d0 1px;
+font-weight: 600;
+}
+
+tab
 {
 padding: 2px 10px 1px 10px;
 border: solid #e0e0e0 1px;
@@ -47,7 +48,7 @@ border-bottom: solid #fafafa 1px;
 background: #fafafa;
 }
 
-.tabs a.active
+tab.active
 {
 padding: 2px 10px 4px 10px;
 border: solid #d0d0d0 1px;
@@ -56,29 +57,21 @@ border-bottom: none;
 background: #ffffff;
 }
 
-.tabs a:hover
+tab:hover
 {
 border-top: solid #ce8a8a 1px;
 background: #f7f7f7;
 cursor: pointer;
 }
 
-.tabs a.active:hover
+tab.active:hover
 {
 border-top: solid #d00000 2px;
 background: #ffffff;
 cursor: default;
 }
 
-.tabs .progress
-{
-float: right;
-margin-right: 17px;
-margin-top: 3px;
-display: none;
-}
-
-.tabs .filters
+filter
 {
 display: block;
 margin-top: -7px;
@@ -92,7 +85,7 @@ cursor: pointer;
 text-transform: uppercase;
 }
 
-.tabs .selected
+filter.selected
 {
 color: #000000;
 border: solid #30cf30 1px;
@@ -110,14 +103,15 @@ border: solid #ffffff 1px;
 ul
 {
 list-style-type: none;
-margin: 0px;
-padding: 0px;
+margin: 0;
+padding: 0;
+font-size: 0;
 }
 
 .content
 {
 margin: 9px;
-margin-right: 0px;
+margin-right: 0;
 display: none;
 }
 
@@ -126,72 +120,70 @@ display: none;
 display: block;
 }
 
-.content.tiles li
+/****** TILE ******/
+
+tile
 {
 display: inline-block;
 vertical-align: top;
 border: solid #d0d0d0 1px;
-margin-right: 5px;
+margin: 0px;
+margin-right: 10px;
 margin-bottom: 10px;
 padding: 1px;
+font-size: 10pt;
 cursor: default;
 }
 
-.content.tiles li .renter, .content.tiles li .release
+tile span.renter, tile span.release
 {
 color: #ffffff;
 font-weight: 600;
 text-decoration: underline;
 }
 
-.content.tiles li .sep
-{
-display: block;
-margin-bottom: 10px;
-}
-
-.content.tiles li.notowned
+tile.notowned
 {
 background: #f0f0f0;
 opacity: .4;
 }
 
-.content.tiles li.notreleased
+tile.notreleased
 {
 background: #f0f0f0;
 opacity: .2;
 }
 
-.content.tiles li.rented
+tile.rented
 {
 border-color: #ffa0a0;
 background: #fff0f0;
 }
 
-.content.tiles li.completed
+tile.completed
 {
 border-color: #60af60;
 background: #f0fff0;
 }
 
-.content.tiles li.notplayed
+tile.notplayed
 {
 background: #f0f0f0;
 opacity: .75;
 }
 
-.content.tiles li.invisible
+tile.invisible
 {
 display: none;
 }
 
-.content.tiles li img
+tile img
 {
 width: 180px;
 display: block;
 }
 
-.content.tiles li span.achievements
+tile achievements
 {
 display: block;
 font-size: 11px;
@@ -200,125 +192,125 @@ padding: 2px;
 border-top: solid #d0d0d0 1px;
 }
 
-.content.tiles li.rented span.achievements
+tile.rented achievements
 {
 background-color: #e0a0a0;
 border-top: solid #d09090 1px;
 }
 
-.content.tiles li span.id
+tile id
 {
 display: none;
 }
 
-.content.tiles li.notreleased span.progress
+tile.notreleased progress
 {
 display: none;
 }
 
-.content.tiles li.notreleased span.achievements
+tile.notreleased achievements
 {
 display: none;
 }
 
-.content.tiles li span.progress
+tile progressbar
 {
 display: block;
-margin: 0px;
+margin: 0;
 background-color: #ffffff;
 border: solid #909090 1px;
 height: 6px;
 padding-right: 2px;
 }
 
-.content.tiles li.rented span.progress
+tile.rented progressbar
 {
 background: white;
 }
 
-.content.tiles li span.progress .count
+tile progressbar bar
 {
 display: block;
 height: 4px;
 margin: 1px;
-font-size: 0px;
+font-size: 0;
 }
 
-.p0
+tile progressbar bar.p0
 {
 background-color: #ff0f00;
 }
 
-.p10
+tile progressbar bar.p10
 {
 background-color: #ff4300;
 }
 
-.p20
+tile progressbar bar.p20
 {
 background-color: #ff7900;
 }
 
-.p30
+tile progressbar bar.p30
 {
 background-color: #ffad00;
 }
 
-.p40
+tile progressbar bar.p40
 {
 background-color: #ffc700;
 }
 
-.p50
+tile progressbar bar.p50
 {
 background-color: #ffd800;
 }
 
-.p60
+tile progressbar bar.p60
 {
 background-color: #c7e007;
 }
 
-.p70
+tile progressbar bar.p70
 {
 background-color: #aae50b;
 }
 
-.p80
+tile progressbar bar.p80
 {
 background-color: #72ed12;
 }
 
-.p90
+tile progressbar bar.p90
 {
 background-color: #39f619;
 }
 
-.p100
+tile progressbar bar.p100
 {
 background-color: #06fe20;
 }
 
-.content.tiles li cover
+tile cover
 {
 display: block;
 position: relative;
 }
 
-.content.tiles li cover span.name
+tile cover name
 {
 display: block;
 position: absolute;
 background-color: rgba(4, 4, 4, .70);
-bottom: 0px;
-left: 0px;
+bottom: 0;
+left: 0;
 padding: 5px;
 width: 170px;
 max-width: 170px;
 color: #ffffff;
 }
 
-.content.tiles li.rented cover span.name
+tile.rented cover name
 {
 background-color: rgba(240, 4, 4, .70);
 }
@@ -337,14 +329,14 @@ clear: both;
 color: #005000;
 }
 
-.sort
+sort
 {
 display: inline;
 color: #404040;
 cursor: pointer;
 }
 
-.sort.selected
+sort.selected
 {
 color: #005000;
 font-weight: 700;

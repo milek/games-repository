@@ -32,15 +32,14 @@
 <body>
 
   <div class="top">
-    <span><?php echo $config['title']; ?></span>
+    <h1><?php echo $config['title']; ?></h1>
   </div>
 
-  <div class="tabs">
-    <div class="filters" id="notreleased">not released</div>
-    <div class="filters" id="notowned">not owned</div>
-    <div class="filters selected" id="notplayed">not played</div>
-    <div class="filters selected" id="rented">rented</div>
-    <div class="filters selected" style="display: none;" id="played">played</div>
+  <tabs>
+    <filter id="notreleased">not released</filter>
+    <filter id="notowned">not owned</filter>
+    <filter class="selected" id="notplayed">not played</filter>
+    <filter class="selected" id="rented">rented</filter>
 <?php
 
     $selectedCategory = false;
@@ -48,13 +47,13 @@
     foreach ($categories as $category)
     {
 ?>
-    <a id="<?= $category->id ?>"<?php if ($category->active) {?> class="active"<?php } ?>><?= $category->name ?></a>
+    <tab id="<?= $category->id ?>"<?php if ($category->active) {?> class="active"<?php } ?>><?= $category->name ?></tab>
 <?php
 
     }
 
 ?>
-  </div>
+  </tabs>
 
   <div class="main">
 
@@ -64,7 +63,7 @@
     {
         $i = 1;
 
-?>    <ul id="content<?= $group->name ?>" class="content tiles<?= $group->name == $categories[0]->id ? " active" : "" ?>">
+?>    <ul id="content<?= $group->name ?>" class="content<?= $group->name == $categories[0]->id ? " active" : "" ?>">
 <?php
 
         foreach ($group->games as $game)
@@ -103,9 +102,10 @@
             ob_start("newlines");
 
 ?>
-      <li class="game<?= $addtnl ?>">
+      <tile class="game<?= $addtnl ?>">
         <cover>
-          <span class="name"><?= $game->getGameName() ?><?php
+          <id><?= $i++ ?></id>
+          <name><?= $game->getGameName() ?><?php
 
             if ($game->renter != "")
             {
@@ -125,8 +125,7 @@
 
             }
 
-?></span>
-          <span class="id"><?= $i++ ?></span>
+?></name>
           <img src="<?= $game->getBoxArt() ?>" />
         </cover>
 
@@ -135,23 +134,23 @@
             if ($game->achPoints->outOf > 0)
             {
 ?>
-         <span class="achievements">
+        <achievements>
           <?= $game->achPoints->value ?>&nbsp;/&nbsp;<?= $game->achPoints->outOf ?><br />
-          <span class="progress"><span class="count p<?= $classColorPercentage ?>" style="width: <?= $achPointPercentage ?>%;"><?= $achPointPercentage ?></span></span>
-        </span>
+          <progressbar><bar class="p<?= $classColorPercentage ?>" style="width: <?= $achPointPercentage ?>%;"><?= $achPointPercentage ?></bar></progressbar>
+        </achievements>
 <?php
 
             }
             else
             {
 ?>
-         <span class="count" style="display: none;">0</span>
+         <bar style="display: none;">0</bar>
 <?php
 
             }
 
 ?>
-     </li>
+     </tile>
 <?php
 
       ob_end_flush();
@@ -168,12 +167,12 @@
     <div style="float: right"><a href="https://github.com/milek/GamesRepository">Fork it on <strong>GitHub!</strong></a> or <a href="https://bitbucket.org/verdigo/gamesrepository">on <strong>Bitbucket!</strong></a></div>
     <strong>Last modified:</strong> <b><?= date("F d Y H:i:s", filemtime("data/achievements.json")) ?></b><br />
     <strong>Sort tiles:</strong>
-    <div class="sort selected" id="sOaz">original a-z</div> |
-    <div class="sort" id="sOza">original z-a</div> | 
-    <div class="sort" id="sNaz">name a-z</div> |
-    <div class="sort" id="sNza">name z-a</div> |
-    <div class="sort" id="sPaz">completion 0%-100%</div> |
-    <div class="sort" id="sPza">completion 100%-0%</div>
+    <sort class="selected" id="sOaz">original a-z</sort> |
+    <sort id="sOza">original z-a</sort> | 
+    <sort id="sNaz">name a-z</sort> |
+    <sort id="sNza">name z-a</sort> |
+    <sort id="sPaz">completion 0%-100%</sort> |
+    <sort id="sPza">completion 100%-0%</sort>
   </div>
 
   <script>
@@ -191,27 +190,13 @@
         currentTab = tab;
     }
 
-    function showHidePlayed()
-    {
-        $('li').each(function(index, li)
-        {
-            if (!$(li).hasClass('notplayed') 
-             && !$(li).hasClass('notowned'))
-            {
-                $(li).toggleClass('invisible');
-            }
-        });
-
-        $('#played').toggleClass('selected');
-    }
-
     function showHide(type)
     {
-        $('li').each(function(index, li)
+        $('tile').each(function(index, tile)
         {
-            if ($(li).hasClass(type))
+            if ($(tile).hasClass(type))
             {
-                $(li).toggleClass('invisible');
+                $(tile).toggleClass('invisible');
             }
         });
 
@@ -222,13 +207,13 @@
     {
         if (desc != null)
         {
-            $('ul#[id^"content"]>li').tsort(where, {order:"desc"});
+            $('ul#[id^"content"]>tile').tsort(where, {order:"desc"});
         }
         else
         {
-            $('ul#[id^="content"]>li').tsort(where);
+            $('ul#[id^="content"]>tile').tsort(where);
         }
-        $(".sort").removeClass('selected');
+        $('sort').removeClass('selected');
         $(id).addClass('selected');
     }
 
@@ -252,12 +237,12 @@
     $('#notreleased').click(function(){showHide('notreleased')});
     $('#notplayed').click(function(){showHide('notplayed')});
 
-    $('#sOaz').click(function(){sort('#sOaz','span.id')});
-    $('#sOza').click(function(){sort('#sOza','span.id','desc')});
-    $('#sNaz').click(function(){sort('#sNaz','span.name')});
-    $('#sNza').click(function(){sort('#sNza','span.name','desc')});
-    $('#sPaz').click(function(){sort('#sPaz','span.name');sort('#sPaz','span.count')});
-    $('#sPza').click(function(){sort('#sPza','span.name');sort('#sPza','span.count','desc')});
+    $('#sOaz').click(function(){sort('#sOaz','id')});
+    $('#sOza').click(function(){sort('#sOza','id','desc')});
+    $('#sNaz').click(function(){sort('#sNaz','name')});
+    $('#sNza').click(function(){sort('#sNza','name','desc')});
+    $('#sPaz').click(function(){sort('#sPaz','name');sort('#sPaz','bar')});
+    $('#sPza').click(function(){sort('#sPza','name');sort('#sPza','bar','desc')});
 
   </script>
 

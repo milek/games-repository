@@ -1,6 +1,7 @@
 <?php
 
     // includes
+    include_once("config.php");
     include_once("includes/types.php");
     include_once("includes/functions.php");
 
@@ -21,7 +22,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>XBOX360 games</title>
+  <title><?php echo strip_tags($config['title']); ?></title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="author" content="lukasz.milewski@gmail.com" />
   <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
@@ -31,7 +32,7 @@
 <body>
 
   <div class="top">
-    <span><strong>XBOX360</strong> games</span>
+    <span><?php echo $config['title']; ?></span>
   </div>
 
   <div class="tabs">
@@ -103,17 +104,13 @@
 
 ?>
       <li class="game<?= $addtnl ?>">
-        <span class="id"><?= $i++ ?></span>
-        <img src="<?= $game->getBoxArt() ?>" />
-        <span class="name"><?= $game->getGameName() ?></span>
-<?php
+        <cover>
+          <span class="name"><?= $game->getGameName() ?><?php
 
             if ($game->renter != "")
             {
 
-?>
-          <div class="wrapper"><span class="renter"><?= strtolower($game->renter) ?></span></div>
-<?php
+?>&nbsp; <span class="renter"><?= strtoupper($game->renter) ?></span><?php
 
             }
 ?>
@@ -124,11 +121,16 @@
 
                 $released = parseDate($game->released);
 
-?>
-        <div class="wrapper"><span class="release"><?= $released ?></span></div>
-<?php
+?> <span class="release"><?= $released ?></span><?php
 
             }
+
+?></span>
+          <span class="id"><?= $i++ ?></span>
+          <img src="<?= $game->getBoxArt() ?>" />
+        </cover>
+
+<?php
 
             if ($game->achPoints->outOf > 0)
             {

@@ -25,18 +25,23 @@
     function loadCategories(&$categories)
     {
         $temp = loadPropertyFile("data/categories.txt");
-        $active = false;
+        $active = true;
 
         foreach ($temp[2] as $key => $value)
         {
+            if ($_COOKIE['tab'] != null)
+            {
+                $active = $_COOKIE['tab'] == $value;
+            }
+
             $category = new Category();
             $category->id = $value;
-            $category->active = !$active;
+            $category->active = $active;
             $category->name = $temp[1][$key];
 
             $categories[] = $category;
 
-            $active = true;
+            $active = false;
         }
     }
 
@@ -46,6 +51,7 @@
     function parseGamesLine($line, &$games, &$lastGroup, $buy)
     {
         $line = trim($line);
+        $renter = null;
 
         if (substr($line, 0, 1) == "[" && substr($line, -1) == "]")
         {
@@ -72,7 +78,6 @@
         else if (strlen($line) > 0 && substr($line, 0, 2) != "//")
         {
             $game = trim($line);
-            $renter = null;
 
             if (preg_match("/^(.*?)\s+\[(.*)\]/i", $line, $matches) > 0)
             {
@@ -131,7 +136,7 @@
         $live = loadPropertyfile("data/live-matches.txt");
 
         $gamertag = $json['Data']['Players'][0]['Gamertag'];
-        $forbidden = array(174, 194, 132, 162, 226);
+        $forbidden = array(chr(174), chr(194), chr(132), chr(162), chr(226));
         $replacement = array_fill(0, count($forbidden), '');
 
         foreach ($json['Data']['Games'] as $game)

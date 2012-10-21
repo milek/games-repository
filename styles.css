@@ -312,6 +312,7 @@ padding: 5px;
 width: 170px;
 max-width: 170px;
 color: #ffffff;
+text-shadow: 0 0 8px #000000;
 }
 
 tile.rented cover name

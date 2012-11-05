@@ -3,7 +3,7 @@
     /**
      * Load retail games file.
      */
-    function loadRetailGames(&$games, $buy = false)
+    function loadRetailGames(&$games, $showAll)
     {
         $lastGroup = "";
         $retailHandle = @fopen("data/retail-games.txt", "r");
@@ -12,7 +12,7 @@
             while (!feof($retailHandle))
             {
                 $line = fgets($retailHandle);
-                parseGamesLine($line, $games, $lastGroup, $buy);
+                parseGamesLine($line, $games, $lastGroup, false, $showAll);
             }
         }
 
@@ -22,30 +22,49 @@
     /**
      * Load categories
      */
-    function loadCategories(&$categories)
+    function loadCategories(&$categories, $showAll)
     {
         $temp = loadPropertyFile("data/categories.txt");
-        $active = false;
+        $active = true;
+
+        if ($showAll)
+        {
+            array_unshift($temp[0], "ALL = all");
+            array_unshift($temp[1], "ALL");
+            array_unshift($temp[2], "all");
+        }
 
         foreach ($temp[2] as $key => $value)
         {
+            if ($_COOKIE['tab'] != null)
+            {
+                $active = $_COOKIE['tab'] == $value;
+            }
+
             $category = new Category();
             $category->id = $value;
-            $category->active = !$active;
+            $category->active = $active;
             $category->name = $temp[1][$key];
 
             $categories[] = $category;
 
-            $active = true;
+            $active = false;
         }
     }
 
     /**
      * Parse line.
      */
-    function parseGamesLine($line, &$games, &$lastGroup, $buy)
+    function parseGamesLine($line, &$games, &$lastGroup, $buy, $showAll)
     {
         $line = trim($line);
+        $renter = null;
+
+        if ($showAll && is_null($games['all']))
+        {
+            $games['all'] = new Group;
+            $games['all']->name = 'all';
+        }
 
         if (substr($line, 0, 1) == "[" && substr($line, -1) == "]")
         {
@@ -68,11 +87,14 @@
             }
 
             $games[$lastGroup]->addGameWithReleaseDate($game, $renter, $releaseDate);
+            if ($showAll)
+            {
+                $games['all']->addGameWithReleaseDate($game, $renter, $releaseDate);
+            }
         }
         else if (strlen($line) > 0 && substr($line, 0, 2) != "//")
         {
             $game = trim($line);
-            $renter = null;
 
             if (preg_match("/^(.*?)\s+\[(.*)\]/i", $line, $matches) > 0)
             {
@@ -81,6 +103,11 @@
             }
 
             $games[$lastGroup]->addGame($game, $renter);
+
+            if ($showAll)
+            {
+                $games['all']->addGame($game, $renter);
+            }
         }
     }
 
@@ -131,7 +158,7 @@
         $live = loadPropertyfile("data/live-matches.txt");
 
         $gamertag = $json['Data']['Players'][0]['Gamertag'];
-        $forbidden = array(174, 194, 132, 162, 226);
+        $forbidden = array(chr(174), chr(194), chr(132), chr(162), chr(226));
         $replacement = array_fill(0, count($forbidden), '');
 
         foreach ($json['Data']['Games'] as $game)
@@ -175,8 +202,6 @@
 
                     $game->boxArtId = $boxArtId;
                     $game->achPoints = $gamerscore;
-
-                    return;
                 }
             }
         }

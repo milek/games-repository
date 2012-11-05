@@ -15,11 +15,26 @@
         function addGame($name, $renter)
         {
             $id = '';
+            $cdnumber = '1';
 
             if (!(strpos($name, "{") === false))
             {
-                $id = substr($name, strpos($name, "{") + 1, -1);
+                $metadata = substr($name, strpos($name, "{") + 1, -1);
                 $name = substr($name, 0, strpos($name, "{") - 1);
+
+                $metarray = split(';', $metadata);
+                foreach ($metarray as $m)
+                {
+                    list($key, $value) = split(':', $m);
+                    if ($key == 'cd')
+                    {
+                        $cdnumber = $value;
+                    }
+                    else if ($key == 'id')
+                    {
+                        $id = $value;
+                    }
+                }
             }
 
             $game = new Game;
@@ -27,6 +42,7 @@
             $game->id = $id;
             $game->renter = $renter;
             $game->released = null;
+            $game->cdnumber = $cdnumber;
 
             $game->checkForAchievements();
 
